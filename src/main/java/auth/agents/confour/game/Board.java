@@ -16,9 +16,9 @@ public class Board {
     private static final int W = 7;
     private static final int H = 6;
 
-    private static final char E = ' '; // empty
-    private static final char P = 'P'; // player
-    private static final char O = 'O'; // opponent
+    public static final char E = ' '; // empty
+    public static final char P = 'P'; // player
+    public static final char O = 'O'; // opponent
 
     private final char[][] cells;
 
