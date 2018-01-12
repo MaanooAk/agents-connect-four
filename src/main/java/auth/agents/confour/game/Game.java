@@ -48,4 +48,8 @@ public final class Game {
         return board.getWinner() == Board.O;
     }
 
+    @Override
+    public String toString() {
+        return board.toString();
+    }
 }
