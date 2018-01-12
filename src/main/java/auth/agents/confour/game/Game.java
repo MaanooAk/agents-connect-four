@@ -30,10 +30,15 @@ public final class Game {
         nextPlayer();
     }
 
-    public void addPlayerDisk(IEngine engine) {
+    /**
+     * @return the move played
+     */
+    public int addPlayerDisk(IEngine engine) {
 
         int x = engine.suggest(board);
         addPlayerDisk(x);
+
+        return x;
     }
 
     public void addOpponentDisk(int x) {
