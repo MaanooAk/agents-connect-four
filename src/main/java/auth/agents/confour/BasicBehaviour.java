@@ -66,16 +66,16 @@ public class BasicBehaviour extends Behaviour {
 
                 opponent = message.getSender();
 
-                protocol.sendSeed(opponent, seed);
-                protocol.unregister();
-
             } else if (message.getPerformative() == ACLMessage.PROPOSE) {
 
                 opponent = message.getSender();
                 protocol.acceptGame(opponent);
+            }
+
+            if (opponent != null) {
 
                 protocol.sendSeed(opponent, seed);
-                protocol.unregister();
+                protocol.deregister();
             }
 
         } else if (opponent != message.getSender()) {

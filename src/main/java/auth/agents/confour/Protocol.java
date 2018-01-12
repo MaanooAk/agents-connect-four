@@ -37,7 +37,7 @@ public class Protocol {
 
     }
     
-    public void unregister() {
+    public void deregister() {
 
         try {
             DFService.deregister(agent);
