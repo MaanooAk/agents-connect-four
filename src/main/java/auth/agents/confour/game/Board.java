@@ -17,7 +17,7 @@ public final class Board {
     private static final int H = 6;
 
     // board cells
-    public static final char E = ' '; // empty
+    public static final char E = '.'; // empty
     public static final char P = 'P'; // player
     public static final char O = 'O'; // opponent
 
@@ -47,6 +47,10 @@ public final class Board {
         left = W*H;
         winner = N;
 
+    }
+
+    public boolean canAdd(int x) {
+        return cells[x][H-1] == E;
     }
 
     public void add(int x, char who) {
@@ -119,4 +123,21 @@ public final class Board {
     public char getWinner() {
         return winner;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int y = H - 1; y >= 0; y--) {
+            sb.append("|");
+            for (int x = 0; x < W; x++) {
+                sb.append(cells[x][y]);
+            }
+            sb.append("|\n");
+        }
+        sb.append("\\-------/");
+
+        return sb.toString();
+    }
+
 }
