@@ -2,6 +2,7 @@ package auth.agents.confour;
 
 import auth.agents.confour.game.Game;
 import auth.agents.confour.game.GameMaker;
+import auth.agents.confour.game.ai.EngineRandom;
 import auth.agents.confour.game.ai.IEngine;
 import jade.core.AID;
 import jade.core.Agent;
@@ -9,6 +10,8 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 
 public class BasicBehaviour extends Behaviour {
+
+    private final Protocol protocol;
 
     private AID opponent;
     private Game game;
@@ -18,11 +21,13 @@ public class BasicBehaviour extends Behaviour {
     public BasicBehaviour(Agent a) {
         super(a);
 
+        protocol = new Protocol(a);
+
         opponent = null;
         game = null;
 
         seed = GameMaker.createRandomSeed();
-        engine = null;
+        engine = new EngineRandom(); // TODO choose an engine
     }
 
     @Override
@@ -47,16 +52,16 @@ public class BasicBehaviour extends Behaviour {
             // TODO find opp somehow
             opponent = null; // TODO add value
 
-            Protocol.sendSeed(opponent, seed);
+            protocol.sendSeed(opponent, seed);
 
         } else if (game == null) {
 
-            int otherSeed = Protocol.receiveSeed(message);
+            int otherSeed = protocol.receiveSeed(message);
             game = GameMaker.createGame(seed, otherSeed);
 
         } else if (game != null){
 
-            int move = Protocol.receiveMove(message);
+            int move = protocol.receiveMove(message);
             game.addOpponentDisk(move);
 
         }
@@ -64,7 +69,7 @@ public class BasicBehaviour extends Behaviour {
         if (game != null && game.isPlaying()) {
 
             int move = game.addPlayerDisk(engine);
-            Protocol.sendMove(opponent, move);
+            protocol.sendMove(opponent, move);
         }
 
         if (game != null && game.isOver()) {
