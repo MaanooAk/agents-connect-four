@@ -1,5 +1,7 @@
 package auth.agents.confour.game;
 
+import auth.agents.confour.game.ai.IEngine;
+
 /**
  * A connect four game state
  * <p>
@@ -28,6 +30,12 @@ public final class Game {
         nextPlayer();
     }
 
+    public void addPlayerDisk(IEngine engine) {
+
+        int x = engine.suggest(board);
+        addPlayerDisk(x);
+    }
+
     public void addOpponentDisk(int x) {
 
         board.add(x, Board.P);
@@ -53,6 +61,10 @@ public final class Game {
 
     public boolean isOpponentWinner() {
         return board.getWinner() == Board.O;
+    }
+
+    public boolean isPlayerFirst() {
+        return first;
     }
 
     @Override
