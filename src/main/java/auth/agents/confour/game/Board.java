@@ -1,6 +1,8 @@
 package auth.agents.confour.game;
 
 
+import java.awt.event.HierarchyBoundsAdapter;
+
 /**
  * A connect four board state.
  * <p>
@@ -45,6 +47,52 @@ public final class Board {
         clear();
     }
 
+    /**
+     * Used by the clone method.
+     */
+    private Board(Board other) {
+        this(); // TODO improve
+
+        for (int x = 0; x < W; x++) {
+            for (int y = 0; y < H; y++) {
+                cells[x][y] = other.get(x, y);
+            }
+        }
+
+        left = other.left;
+        winner = other.winner;
+    }
+
+    /**
+     * Creates a clone of the object. The new objects shares none
+     * of the variables with the old one.
+     *
+     * @return the new board
+     */
+    public Board clone() {
+        return new Board(this);
+    }
+
+    /**
+     * Changes the board in order to become an clone of a given board.
+     *
+     * @param other the given board
+     */
+    public void set(Board other) {
+
+        for (int x = 0; x < W; x++) {
+            for (int y = 0; y < H; y++) {
+                cells[x][y] = other.get(x, y);
+            }
+        }
+
+        left = other.left;
+        winner = other.winner;
+    }
+
+    /**
+     * Resets the board
+     */
     public void clear() {
 
         for (int x = 0; x < W; x++) {
