@@ -14,6 +14,12 @@ public class EngineRandom implements IEngine {
 
     @Override
     public int suggest(Board board) {
-        return ra.nextInt(Board.W);
+        int move;
+
+        do {
+            move = ra.nextInt(Board.W);
+        } while(!board.canAdd(move));
+
+        return move;
     }
 }
