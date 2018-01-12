@@ -25,7 +25,7 @@ public class Protocol {
         descAgent.setName(agent.getAID());
 
         ServiceDescription descService = new ServiceDescription();
-        descService.setName("player");
+        descService.setType("player");
 
         descAgent.addServices(descService);
 
@@ -44,6 +44,43 @@ public class Protocol {
         } catch (FIPAException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public AID find() {
+
+        DFAgentDescription descAgent = new DFAgentDescription();
+
+        ServiceDescription descService = new ServiceDescription();
+        descService.setType("player");
+
+        descAgent.addServices(descService);
+
+        try {
+            DFAgentDescription[] results = DFService.search(agent, descAgent);
+
+            if (results.length == 0) return null;
+
+            return results[0].getName();
+
+        } catch (FIPAException e) {
+            return null;
+        }
+
+    }
+
+    public void requestGame(AID aid) {
+
+        agent.send(newMessage(ACLMessage.PROPOSE, aid, "game?"));
+    }
+
+    public void acceptGame(AID aid) {
+
+        agent.send(newMessage(ACLMessage.ACCEPT_PROPOSAL, aid, ""));
+    }
+
+    public void rejectGame(AID aid) {
+
+        agent.send(newMessage(ACLMessage.REJECT_PROPOSAL, aid, ""));
     }
 
     // ===

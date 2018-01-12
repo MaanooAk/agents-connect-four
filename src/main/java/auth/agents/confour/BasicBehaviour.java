@@ -32,6 +32,12 @@ public class BasicBehaviour extends Behaviour {
 
     @Override
     public void action() {
+
+        AID opp = protocol.find();
+        if (opp != null) {
+            protocol.requestGame(opp);
+        }
+
         while (true) {
 
             ACLMessage message = myAgent.receive();
@@ -49,10 +55,32 @@ public class BasicBehaviour extends Behaviour {
 
         if (opponent == null) {
 
-            // TODO find opp somehow
-            opponent = null; // TODO add value
+            if (message.getPerformative() == ACLMessage.REJECT_PROPOSAL) {
 
-            protocol.sendSeed(opponent, seed);
+                AID opp = protocol.find();
+                if (opp != null) {
+                    protocol.requestGame(opp);
+                }
+
+            } else if (message.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
+
+                opponent = message.getSender();
+
+                protocol.sendSeed(opponent, seed);
+                protocol.unregister();
+
+            } else if (message.getPerformative() == ACLMessage.PROPOSE) {
+
+                opponent = message.getSender();
+                protocol.acceptGame(opponent);
+
+                protocol.sendSeed(opponent, seed);
+                protocol.unregister();
+            }
+
+        } else if (opponent != message.getSender()) {
+
+            protocol.rejectGame(message.getSender());
 
         } else if (game == null) {
 
@@ -77,6 +105,10 @@ public class BasicBehaviour extends Behaviour {
             // TODO statistics
             // TODO terminate
             // TODO return true
+        }
+
+        if (opponent == null) {
+            protocol.register();
         }
 
         return false;
