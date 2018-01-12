@@ -1,5 +1,12 @@
 package auth.agents.confour.game;
 
+/**
+ * A connect four game state
+ * <p>
+ * Suggested creation is using the GameMaker module
+ *
+ * @see GameMaker
+ */
 public final class Game {
 
     private final boolean first; // if the player started

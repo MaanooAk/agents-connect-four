@@ -2,6 +2,16 @@ package auth.agents.confour.game;
 
 import java.util.Random;
 
+/**
+ * Creates a game with two seed given by the two players.
+ * <p>
+ * Players create a seed with the createRandomSeed, the exchange the
+ * seeds and the create a game with the createGame.
+ * <p>
+ * The created Game will be synced for the two players.
+ *
+ * @see Game
+ */
 public final class GameMaker {
 
     private GameMaker() {

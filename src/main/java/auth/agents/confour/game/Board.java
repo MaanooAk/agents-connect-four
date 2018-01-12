@@ -2,19 +2,27 @@ package auth.agents.confour.game;
 
 
 /**
- * 2 . . .
- * 1 . . .
- * 0 . . .
- *   0 1 2 ...
- *
+ * A connect four board state.
+ * <p>
+ * The indexes are show bellow:
+ * <pre>
+ *   y
+ *   2 . . .
+ *   1 . . .
+ *   0 . . .
+ *     0 1 2 x
+ * </pre>
+ * <p>
+ * The values are represented with char values: E, P, O.
+ * The winner is represented with char values: N, E, P, D.
  *
  *
  */
 public final class Board {
 
     // board sizes
-    private static final int W = 7;
-    private static final int H = 6;
+    public static final int W = 7;
+    public static final int H = 6;
 
     // board cells
     public static final char E = '.'; // empty
