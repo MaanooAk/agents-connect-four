@@ -1,6 +1,6 @@
 package auth.agents.confour.game;
 
-public class Game {
+public final class Game {
 
     private final boolean first; // if the player started
 
@@ -15,16 +15,37 @@ public class Game {
 
     }
 
+    public void addPlayerDisk(int x) {
+
+        board.add(x, Board.P);
+        nextPlayer();
+    }
+
+    public void addOpponentDisk(int x) {
+
+        board.add(x, Board.P);
+        nextPlayer();
+    }
+
+    private void nextPlayer() {
+
+        playing = !playing;
+    }
+
     public boolean isPlaying() {
         return playing;
     }
 
-    public void addPlayerDisk(int x) {
-        board.add(x, Board.P);
+    public boolean isOver() {
+        return board.hasWinner();
     }
 
-    public void addOpponentDisk(int x) {
-        board.add(x, Board.P);
+    public boolean isPlayerWinner() {
+        return board.getWinner() == Board.P;
+    }
+
+    public boolean isOpponentWinner() {
+        return board.getWinner() == Board.O;
     }
 
 }
