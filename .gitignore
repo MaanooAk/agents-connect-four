@@ -1,2 +1,8 @@
 
+local/
+
+# ide files
+.idea/
 target/
+*.iml
+
