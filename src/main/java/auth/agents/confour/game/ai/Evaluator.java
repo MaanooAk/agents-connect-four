@@ -60,9 +60,9 @@ public class Evaluator {
             //checking for win or loss scenario
             if (tBoard.hasWinner()) {
                 if (tBoard.getWinner() == Board.P) {
-                    score = 300;
+                    score = 1000;
                 } else if (tBoard.getWinner() == Board.O) {
-                    score = -300;
+                    score = -1000;
                 } //else it's a draw, score=0
             } else {
                 //evaluating by using the evalTable
@@ -98,9 +98,9 @@ public class Evaluator {
             //checking for win or loss scenario
             if (tBoard.hasWinner()) {
                 if (tBoard.getWinner() == Board.P) {
-                    score = 300;
+                    score = 1000;
                 } else if (tBoard.getWinner() == Board.O) {
-                    score = -300;
+                    score = -1000;
                 } //else it's a draw, score=0
             } else {
                 //evaluating by counting the X in a row
