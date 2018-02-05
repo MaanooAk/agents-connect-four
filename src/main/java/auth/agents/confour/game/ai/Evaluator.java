@@ -68,9 +68,9 @@ public class Evaluator {
                 //evaluating by using the evalTable
                 for (int w=0;w<Board.W;w++) {
                     for (int h=0;h<Board.H;h++) {
-                        if (board.get(w,h) == Board.P)
+                        if (tBoard.get(w,h) == Board.P)
                             score += evalTable[w][h];
-                        else if (board.get(w,h) == Board.O)
+                        else if (tBoard.get(w,h) == Board.O)
                             score -= evalTable[w][h];
                     }
                 }
@@ -110,12 +110,12 @@ public class Evaluator {
                     int countP = 0;
                     int countO = 0;
                     for (int h=0;h<Board.H;h++) {
-                        if (board.get(w,h) == Board.P) {
+                        if (tBoard.get(w,h) == Board.P) {
                             score -= countO * weights[countO];
                             countO = 0;
                             countP += 1;
                         }
-                        else if (board.get(w,h) == Board.O) {
+                        else if (tBoard.get(w,h) == Board.O) {
                             score += countP * weights[countP];
                             countP = 0;
                             countO += 1;
@@ -134,12 +134,12 @@ public class Evaluator {
                     int countP = 0;
                     int countO = 0;
                     for (int w=0;w<Board.W;w++) {
-                        if (board.get(w,h) == Board.P) {
+                        if (tBoard.get(w,h) == Board.P) {
                             score -= countO * weights[countO];
                             countO = 0;
                             countP += 1;
                         }
-                        else if (board.get(w,h) == Board.O) {
+                        else if (tBoard.get(w,h) == Board.O) {
                             score += countP * weights[countP];
                             countP = 0;
                             countO += 1;
@@ -164,12 +164,12 @@ public class Evaluator {
                         if ((w+d > Board.W) || (h+d > Board.H))
                             continue;
 
-                        if (board.get(w+d,h+d) == Board.P) {
+                        if (tBoard.get(w+d,h+d) == Board.P) {
                             score -= countO * weights[countO];
                             countO = 0;
                             countP += 1;
                         }
-                        else if (board.get(w+d,h+d) == Board.O) {
+                        else if (tBoard.get(w+d,h+d) == Board.O) {
                             score += countP * weights[countP];
                             countP = 0;
                             countO += 1;
@@ -191,12 +191,12 @@ public class Evaluator {
                         if ((0+d > Board.W) || (h+d > Board.H))
                             continue;
 
-                        if (board.get(0+d,h+d) == Board.P) {
+                        if (tBoard.get(0+d,h+d) == Board.P) {
                             score -= countO * weights[countO];
                             countO = 0;
                             countP += 1;
                         }
-                        else if (board.get(0+d,h+d) == Board.O) {
+                        else if (tBoard.get(0+d,h+d) == Board.O) {
                             score += countP * weights[countP];
                             countP = 0;
                             countO += 1;
@@ -221,12 +221,12 @@ public class Evaluator {
                         if ((w-d > Board.W) || (h+d > Board.H))
                             continue;
 
-                        if (board.get(w-d,h+d) == Board.P) {
+                        if (tBoard.get(w-d,h+d) == Board.P) {
                             score -= countO * weights[countO];
                             countO = 0;
                             countP += 1;
                         }
-                        else if (board.get(w-d,h+d) == Board.O) {
+                        else if (tBoard.get(w-d,h+d) == Board.O) {
                             score += countP * weights[countP];
                             countP = 0;
                             countO += 1;
@@ -248,12 +248,12 @@ public class Evaluator {
                         if ((Board.H - d > Board.W) || (h+d > Board.H))
                             continue;
 
-                        if (board.get(Board.H - d,h+d) == Board.P) {
+                        if (tBoard.get(Board.H - d,h+d) == Board.P) {
                             score -= countO * weights[countO];
                             countO = 0;
                             countP += 1;
                         }
-                        else if (board.get(Board.H - d,h+d) == Board.O) {
+                        else if (tBoard.get(Board.H - d,h+d) == Board.O) {
                             score += countP * weights[countP];
                             countP = 0;
                             countO += 1;
