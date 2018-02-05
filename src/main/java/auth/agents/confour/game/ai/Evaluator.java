@@ -111,19 +111,19 @@ public class Evaluator {
                     int countO = 0;
                     for (int h=0;h<Board.H;h++) {
                         if (tBoard.get(w,h) == Board.P) {
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                             countP += 1;
                         }
                         else if (tBoard.get(w,h) == Board.O) {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
                             countO += 1;
                         }
                         else {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                         }
                     }
@@ -135,19 +135,19 @@ public class Evaluator {
                     int countO = 0;
                     for (int w=0;w<Board.W;w++) {
                         if (tBoard.get(w,h) == Board.P) {
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                             countP += 1;
                         }
                         else if (tBoard.get(w,h) == Board.O) {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
                             countO += 1;
                         }
                         else {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                         }
                     }
@@ -165,19 +165,19 @@ public class Evaluator {
                             continue;
 
                         if (tBoard.get(w+d,h+d) == Board.P) {
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                             countP += 1;
                         }
                         else if (tBoard.get(w+d,h+d) == Board.O) {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
                             countO += 1;
                         }
                         else {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                         }
                     }
@@ -192,19 +192,19 @@ public class Evaluator {
                             continue;
 
                         if (tBoard.get(0+d,h+d) == Board.P) {
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                             countP += 1;
                         }
                         else if (tBoard.get(0+d,h+d) == Board.O) {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
                             countO += 1;
                         }
                         else {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                         }
                     }
@@ -222,19 +222,19 @@ public class Evaluator {
                             continue;
 
                         if (tBoard.get(w-d,h+d) == Board.P) {
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                             countP += 1;
                         }
                         else if (tBoard.get(w-d,h+d) == Board.O) {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
                             countO += 1;
                         }
                         else {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                         }
                     }
@@ -249,19 +249,19 @@ public class Evaluator {
                             continue;
 
                         if (tBoard.get(Board.H - d,h+d) == Board.P) {
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                             countP += 1;
                         }
                         else if (tBoard.get(Board.H - d,h+d) == Board.O) {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
                             countO += 1;
                         }
                         else {
-                            score += countP * weights[countP];
+                            score += weights[countP];
                             countP = 0;
-                            score -= countO * weights[countO];
+                            score -= weights[countO];
                             countO = 0;
                         }
                     }
