@@ -14,7 +14,7 @@ public final class Game {
     private final boolean first; // if the player started
 
     private Board board;
-    private boolean playing; // if its players turn
+    private boolean playing; // if its player's turn
 
     public Game(boolean first) {
         this.first = first;
@@ -71,6 +71,8 @@ public final class Game {
     public boolean isPlayerFirst() {
         return first;
     }
+
+    public int numberOfMoves() {return (board.W*board.H) - board.getLeft();}
 
     @Override
     public String toString() {

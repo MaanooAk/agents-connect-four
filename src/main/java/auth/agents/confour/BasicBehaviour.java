@@ -4,6 +4,7 @@ import auth.agents.confour.game.Game;
 import auth.agents.confour.game.GameMaker;
 import auth.agents.confour.game.ai.EngineRandom;
 import auth.agents.confour.game.ai.IEngine;
+import auth.agents.confour.game.Statistics;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
@@ -17,6 +18,7 @@ public class BasicBehaviour extends Behaviour {
     private Game game;
     private int seed;
     private IEngine engine;
+    private Statistics statistics;
 
     public BasicBehaviour(Agent a) {
         super(a);
@@ -28,6 +30,7 @@ public class BasicBehaviour extends Behaviour {
 
         seed = GameMaker.createRandomSeed();
         engine = new EngineRandom(); // TODO choose an engine
+        statistics = new Statistics();
     }
 
     @Override
@@ -103,6 +106,7 @@ public class BasicBehaviour extends Behaviour {
         if (game != null && game.isOver()) {
 
             // TODO statistics
+            statistics.add(game.isPlayerWinner(),game.numberOfMoves());
             // TODO terminate
             // TODO return true
         }
