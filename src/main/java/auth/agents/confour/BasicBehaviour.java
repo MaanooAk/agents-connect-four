@@ -109,6 +109,7 @@ public class BasicBehaviour extends Behaviour {
             statistics.add(game.isPlayerWinner(),game.numberOfMoves());
 
             if (statistics.getGames() >= GAMES) {
+                System.out.println(getAgent().getName() + " finished with a win rate of " + statistics.getWinRate());
                 return true;
             }
         }

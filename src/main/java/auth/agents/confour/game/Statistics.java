@@ -25,4 +25,8 @@ public class Statistics {
         double avgMoves = (double)moves/games;
         double winRate = (double)wins/games;
     }
+
+    public float getWinRate() {
+        return wins*1f/games;
+    }
 }
