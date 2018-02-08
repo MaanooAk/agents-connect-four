@@ -37,10 +37,12 @@ public class BasicBehaviour extends Behaviour {
     @Override
     public void action() {
 
-        AID opp = protocol.find();
-        if (opp != null) {
-            protocol.requestGame(opp);
-        }
+        try {
+            // randomize the start order
+            Thread.sleep((long) (Math.random() * 500));
+        } catch (InterruptedException e) { }
+
+        tryFindOpp();
 
         while (true) {
 
@@ -61,10 +63,7 @@ public class BasicBehaviour extends Behaviour {
 
             if (message.getPerformative() == ACLMessage.REJECT_PROPOSAL) {
 
-                AID opp = protocol.find();
-                if (opp != null) {
-                    protocol.requestGame(opp);
-                }
+                tryFindOpp();
 
             } else if (message.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
 
@@ -74,13 +73,16 @@ public class BasicBehaviour extends Behaviour {
 
                 opponent = message.getSender();
                 protocol.acceptGame(opponent);
+
+                protocol.deregister();
             }
 
             if (opponent != null) {
 
                 protocol.sendSeed(opponent, seed);
-                protocol.deregister();
             }
+
+            System.out.println("opponent " + opponent); // debug
 
         } else if (opponent != message.getSender()) {
 
@@ -90,6 +92,8 @@ public class BasicBehaviour extends Behaviour {
 
             int otherSeed = protocol.receiveSeed(message);
             game = GameMaker.createGame(seed, otherSeed);
+
+            System.out.println("Game created"); //debug
 
         } else if (game != null){
 
@@ -119,6 +123,16 @@ public class BasicBehaviour extends Behaviour {
         }
 
         return false;
+    }
+
+    public void tryFindOpp() {
+
+        AID opp = protocol.find();
+        if (opp != null) {
+            protocol.requestGame(opp);
+        } else {
+            protocol.register();
+        }
     }
 
     @Override

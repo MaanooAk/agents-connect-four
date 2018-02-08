@@ -14,7 +14,7 @@ public class PlayerAgent extends Agent {
     public void setup() {
 
         if (getArguments().length == 1) {
-            engineName = (String) getArguments()[0];
+            //engineName = (String) getArguments()[0];
         }
 
         System.out.println("Agent with engine '" + engineName + "'");

@@ -20,11 +20,13 @@ public class Protocol {
     }
 
     public void register() {
+        System.out.println("Register");
 
         DFAgentDescription descAgent = new DFAgentDescription();
         descAgent.setName(agent.getAID());
 
         ServiceDescription descService = new ServiceDescription();
+        descService.setName("player");
         descService.setType("player");
 
         descAgent.addServices(descService);
@@ -42,11 +44,13 @@ public class Protocol {
         try {
             DFService.deregister(agent);
         } catch (FIPAException e) {
-            throw new RuntimeException(e);
+            // TODO revisit
+            //throw new RuntimeException(e);
         }
     }
 
     public AID find() {
+        System.out.println("Find");
 
         DFAgentDescription descAgent = new DFAgentDescription();
 
@@ -75,12 +79,12 @@ public class Protocol {
 
     public void acceptGame(AID aid) {
 
-        agent.send(newMessage(ACLMessage.ACCEPT_PROPOSAL, aid, ""));
+        agent.send(newMessage(ACLMessage.ACCEPT_PROPOSAL, aid, "accept"));
     }
 
     public void rejectGame(AID aid) {
 
-        agent.send(newMessage(ACLMessage.REJECT_PROPOSAL, aid, ""));
+        agent.send(newMessage(ACLMessage.REJECT_PROPOSAL, aid, "reject"));
     }
 
     // ===
@@ -127,7 +131,7 @@ public class Protocol {
         message.setOntology(ONTOLOGY);
         message.setContent(content);
 
-        System.out.println("Message - " + per + " - " + aid + " - " + content);
+        System.out.println("Message (" + agent.getAID().getLocalName() + " > " + aid.getLocalName() + ") " + per + " - " + content);
 
         return message;
     }
