@@ -55,27 +55,23 @@ public class EvaluatorByTable extends Evaluator {
      * for more info see the comment section above the evalTable.
      *
      * @param board the current state of the board
-     * @param x the players choice
      * @return the evaluation score
      */
     @Override
-    public int evaluate(Board board, int x) {
-        
-        if (board.canAdd(x)) {
-            Board tBoard = board.clone();
-            tBoard.add(x, Board.P);
-            //checking for win or loss scenario
-            if (tBoard.hasWinner()) {
-                score = checkWinner(tBoard);
-            } else {
-                //evaluating by using the evalTable
-                for (int w=0;w<Board.W;w++) {
-                    for (int h=0;h<Board.H;h++) {
-                        if (tBoard.get(w,h) == Board.P)
-                            score += evalTable[w][h];
-                        else if (tBoard.get(w,h) == Board.O)
-                            score -= evalTable[w][h];
-                    }
+    public int evaluate(Board board) {
+
+        Board tBoard = board.clone();
+        //checking for win or loss scenario
+        if (tBoard.hasWinner()) {
+            score = checkWinner(tBoard);
+        } else {
+            //evaluating by using the evalTable
+            for (int w=0;w<Board.W;w++) {
+                for (int h=0;h<Board.H;h++) {
+                    if (tBoard.get(w,h) == Board.P)
+                        score += evalTable[w][h];
+                    else if (tBoard.get(w,h) == Board.O)
+                        score -= evalTable[w][h];
                 }
             }
         }

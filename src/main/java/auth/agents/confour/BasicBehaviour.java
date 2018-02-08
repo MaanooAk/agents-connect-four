@@ -105,7 +105,7 @@ public class BasicBehaviour extends Behaviour {
 
         if (game != null && game.isOver()) {
 
-            // TODO statistics
+            //statistics
             statistics.add(game.isPlayerWinner(),game.numberOfMoves());
             // TODO terminate
             // TODO return true

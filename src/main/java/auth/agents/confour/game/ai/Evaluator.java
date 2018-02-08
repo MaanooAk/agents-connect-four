@@ -18,10 +18,9 @@ public abstract class Evaluator {
     /**
      *
      * @param board the current state of the board
-     * @param x the players choice
      * @return the evaluation score
      */
-    public abstract int evaluate(Board board, int x);
+    public abstract int evaluate(Board board);
     
     protected int checkWinner(Board board) {
         switch (board.getWinner()) {

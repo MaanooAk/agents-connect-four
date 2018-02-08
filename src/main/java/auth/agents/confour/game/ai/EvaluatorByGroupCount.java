@@ -30,79 +30,75 @@ public class EvaluatorByGroupCount extends Evaluator {
      * Adding to longer rows is favored over shorter ones
      *
      * @param board the current state of the board
-     * @param x the players choice
      * @return the evaluation score
      */
     @Override
-    public int evaluate(Board board, int x){
+    public int evaluate(Board board){
 
-        if (board.canAdd(x)) {
-            Board tBoard = board.clone();
-            tBoard.add(x, Board.P);
-            //checking for win or loss scenario
-            if (tBoard.hasWinner()) {
-                score = checkWinner(tBoard);
-            } else {
-                //evaluating by counting the X in a row
-                //------------------------------------------------
-                //checking the columns
-                for (int w=0;w<Board.W;w++) {
-                    countP = 0;
-                    countO = 0;
-                    for (int h=0;h<Board.H;h++) {
-                        calculateScore(tBoard, w, h, 0, false);
-                    }
-                }
-                //------------------------------------------------
-                //checking the rows
+        Board tBoard = board.clone();
+        //checking for win or loss scenario
+        if (tBoard.hasWinner()) {
+            score = checkWinner(tBoard);
+        } else {
+            //evaluating by counting the X in a row
+            //------------------------------------------------
+            //checking the columns
+            for (int w=0;w<Board.W;w++) {
+                countP = 0;
+                countO = 0;
                 for (int h=0;h<Board.H;h++) {
-                    countP = 0;
-                    countO = 0;
-                    for (int w=0;w<Board.W;w++) {
-                        calculateScore(tBoard, w, h, 0, false);
-                    }
+                    calculateScore(tBoard, w, h, 0, false);
                 }
-                //------------------------------------------------
-                //checking the counter diagonals
-                //all the diagonals starting from the bottom row
-                for (int w=0;w<Board.W-3;w++) {
-                    countP = 0;
-                    countO = 0;
-                    int h = 0;
-
-                    for (int d=0;d<Board.H-1;d++) {
-                        calculateScore(tBoard, w, h, d, false);
-                    }
+            }
+            //------------------------------------------------
+            //checking the rows
+            for (int h=0;h<Board.H;h++) {
+                countP = 0;
+                countO = 0;
+                for (int w=0;w<Board.W;w++) {
+                    calculateScore(tBoard, w, h, 0, false);
                 }
-                //the rest of the counter diagonals, that start from the first column
-                for (int h=1;h<Board.H-3;h++) {
-                    countP = 0;
-                    countO = 0;
+            }
+            //------------------------------------------------
+            //checking the counter diagonals
+            //all the diagonals starting from the bottom row
+            for (int w=0;w<Board.W-3;w++) {
+                countP = 0;
+                countO = 0;
+                int h = 0;
 
-                    for (int d=0;d<Board.H-2;d++) {
-                        calculateScore(tBoard, 0, h, d, false);
-                    }
+                for (int d=0;d<Board.H-1;d++) {
+                    calculateScore(tBoard, w, h, d, false);
                 }
-                //------------------------------------------------
-                //checking the main diagonals
-                //all the diagonals starting from the bottom row
-                for (int w=Board.W-1;w>2;w--) {
-                    countP = 0;
-                    countO = 0;
-                    int h = 0;
+            }
+            //the rest of the counter diagonals, that start from the first column
+            for (int h=1;h<Board.H-3;h++) {
+                countP = 0;
+                countO = 0;
 
-                    for (int d=0;d<Board.H-1;d++) {
-                        calculateScore(tBoard, w, h, d, true);
-                    }
+                for (int d=0;d<Board.H-2;d++) {
+                    calculateScore(tBoard, 0, h, d, false);
                 }
-                //the rest of the main diagonals, that start from the last column
-                for (int h=1;h<Board.H-3;h++) {
-                    countP = 0;
-                    countO = 0;
+            }
+            //------------------------------------------------
+            //checking the main diagonals
+            //all the diagonals starting from the bottom row
+            for (int w=Board.W-1;w>2;w--) {
+                countP = 0;
+                countO = 0;
+                int h = 0;
 
-                    for (int d=0;d<Board.H-2;d++) {
-                        calculateScore(tBoard, Board.W - 1, h, 0, true);
-                    }
+                for (int d=0;d<Board.H-1;d++) {
+                    calculateScore(tBoard, w, h, d, true);
+                }
+            }
+            //the rest of the main diagonals, that start from the last column
+            for (int h=1;h<Board.H-3;h++) {
+                countP = 0;
+                countO = 0;
+
+                for (int d=0;d<Board.H-2;d++) {
+                    calculateScore(tBoard, Board.W - 1, h, 0, true);
                 }
             }
         }

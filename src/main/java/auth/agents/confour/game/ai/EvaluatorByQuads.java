@@ -34,14 +34,11 @@ public class EvaluatorByQuads extends Evaluator {
      * 50 for three Ps, no Os.
 
      * @param board the current state of the board
-     * @param x the players choice
      * @return the evaluation score
      */
     @Override
-    public int evaluate(Board board, int x) {
-        if (board.canAdd(x)) {
+    public int evaluate(Board board) {
             Board tBoard = board.clone();
-            tBoard.add(x, Board.P);
             //checking for win or loss scenario
             if (tBoard.hasWinner()) {
                 score = checkWinner(tBoard);
@@ -75,7 +72,6 @@ public class EvaluatorByQuads extends Evaluator {
                     }
                 }
             }
-        }
         return score;
     }
     
