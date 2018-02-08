@@ -208,4 +208,5 @@ public class EvaluatorByGroupCount extends Evaluator {
 
         return score;
     }
+    
 }
