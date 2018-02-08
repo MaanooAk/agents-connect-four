@@ -7,3 +7,7 @@ main:
 agents:	
 	mvn -Pjade-agent exec:java
 
+.phony: clean
+clean:
+	mvn clean
+	mvn package

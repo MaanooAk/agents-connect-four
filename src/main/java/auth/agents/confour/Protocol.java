@@ -127,6 +127,8 @@ public class Protocol {
         message.setOntology(ONTOLOGY);
         message.setContent(content);
 
+        System.out.println("Message - " + per + " - " + aid + " - " + content);
+
         return message;
     }
 
