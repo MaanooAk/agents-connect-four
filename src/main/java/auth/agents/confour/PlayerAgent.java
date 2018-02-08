@@ -1,13 +1,22 @@
 package auth.agents.confour;
 
+import auth.agents.confour.game.ai.IEngine;
 import jade.core.Agent;
 
 public class PlayerAgent extends Agent {
 
+    private static final String DEFAULT_ENGINE_NAME = "random";
+
+    private String engineName = DEFAULT_ENGINE_NAME;
+
     @Override
     public void setup() {
 
-        System.out.println("PlayerAgent: setup");
+        if (getArguments().length == 1) {
+            engineName = (String) getArguments()[0];
+        }
+
+        System.out.println("Agent with engine '" + engineName + "'");
 
         addBehaviour(new BasicBehaviour(this));
     }
