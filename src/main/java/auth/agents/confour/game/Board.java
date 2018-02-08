@@ -74,7 +74,7 @@ public final class Board {
     }
 
     /**
-     * Changes the board in order to become an clone of a given board.
+     * Changes the board in order to become a clone of a given board.
      *
      * @param other the given board
      */
@@ -179,6 +179,8 @@ public final class Board {
     public char getWinner() {
         return winner;
     }
+
+    public int getLeft() {return left;}
 
     @Override
     public String toString() {
