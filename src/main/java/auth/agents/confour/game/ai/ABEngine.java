@@ -13,6 +13,12 @@ public class ABEngine implements IEngine {
     private int alpha = Integer.MIN_VALUE;
     private int beta = Integer.MAX_VALUE;
 
+    private Evaluator evaluator;
+
+    public ABEngine(Evaluator evaluator) {
+        this.evaluator = evaluator;
+    }
+
     @Override
     public int suggest(Board board) {
         int nextMove;

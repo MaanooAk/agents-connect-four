@@ -2,15 +2,16 @@ package auth.agents.confour;
 
 import auth.agents.confour.game.Game;
 import auth.agents.confour.game.GameMaker;
-import auth.agents.confour.game.ai.EngineRandom;
-import auth.agents.confour.game.ai.IEngine;
 import auth.agents.confour.game.Statistics;
+import auth.agents.confour.game.ai.IEngine;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 
 public class BasicBehaviour extends Behaviour {
+
+    private static final int GAMES = 20;
 
     private final Protocol protocol;
 
@@ -20,8 +21,9 @@ public class BasicBehaviour extends Behaviour {
     private IEngine engine;
     private Statistics statistics;
 
-    public BasicBehaviour(Agent a) {
+    public BasicBehaviour(Agent a, IEngine engine) {
         super(a);
+        this.engine = engine;
 
         protocol = new Protocol(a);
 
@@ -29,7 +31,6 @@ public class BasicBehaviour extends Behaviour {
         game = null;
 
         seed = GameMaker.createRandomSeed();
-        engine = new EngineRandom(); // TODO choose an engine
         statistics = new Statistics();
     }
 
@@ -104,11 +105,12 @@ public class BasicBehaviour extends Behaviour {
         }
 
         if (game != null && game.isOver()) {
-
-            //statistics
+            
             statistics.add(game.isPlayerWinner(),game.numberOfMoves());
-            // TODO terminate
-            // TODO return true
+
+            if (statistics.getGames() >= GAMES) {
+                return true;
+            }
         }
 
         if (opponent == null) {
@@ -120,6 +122,6 @@ public class BasicBehaviour extends Behaviour {
 
     @Override
     public boolean done() {
-        return false;
+        return statistics.getGames() >= GAMES;
     }
 }

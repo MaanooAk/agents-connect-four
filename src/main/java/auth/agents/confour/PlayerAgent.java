@@ -1,5 +1,6 @@
 package auth.agents.confour;
 
+import auth.agents.confour.game.ai.EngineSelector;
 import auth.agents.confour.game.ai.IEngine;
 import jade.core.Agent;
 
@@ -18,7 +19,7 @@ public class PlayerAgent extends Agent {
 
         System.out.println("Agent with engine '" + engineName + "'");
 
-        addBehaviour(new BasicBehaviour(this));
+        addBehaviour(new BasicBehaviour(this, EngineSelector.selectEngine(engineName)));
     }
 
     @Override

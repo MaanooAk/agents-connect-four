@@ -16,11 +16,11 @@ public class EngineSelector {
             case "random":
                 return new EngineRandom();
             case "ab table":
-                return new EngineAB(new EvaluatorByTable());
+                return new ABEngine(new EvaluatorByTable());
             case "ab quads":
-                return new EngineAB(new EvaluatorByQuads());
+                return new ABEngine(new EvaluatorByQuads());
             case "ab groupcount": 
-                return new EngineAB(new EvaluatorByGroupCount());
+                return new ABEngine(new EvaluatorByGroupCount());
             default :
                 return new EngineRandom();
         }

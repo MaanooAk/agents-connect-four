@@ -9,13 +9,16 @@ public class Statistics {
     public Statistics(){
     }
 
-
     public void add(boolean isWinner, int moves){
         games += 1;
         if (isWinner){
             wins += 1;
         }
         this.moves += moves;
+    }
+
+    public int getGames() {
+        return games;
     }
 
     public void printStats(){
