@@ -37,11 +37,6 @@ public class BasicBehaviour extends Behaviour {
     @Override
     public void action() {
 
-        try {
-            // randomize the start order
-            Thread.sleep((long) (Math.random() * 500));
-        } catch (InterruptedException e) { }
-
         tryFindOpp();
 
         while (true) {
@@ -49,7 +44,7 @@ public class BasicBehaviour extends Behaviour {
             ACLMessage message = myAgent.receive();
             if (message != null) {
 
-                handleMessage(message);
+                if (handleMessage(message)) return;
 
             } else {
                 block();
@@ -82,9 +77,7 @@ public class BasicBehaviour extends Behaviour {
                 protocol.sendSeed(opponent, seed);
             }
 
-            System.out.println("opponent " + opponent); // debug
-
-        } else if (opponent != message.getSender()) {
+        } else if (opponent != null && !opponent.equals(message.getSender())) {
 
             protocol.rejectGame(message.getSender());
 
@@ -111,21 +104,30 @@ public class BasicBehaviour extends Behaviour {
         if (game != null && game.isOver()) {
             
             statistics.add(game.isPlayerWinner(),game.numberOfMoves());
-
+            
             if (statistics.getGames() >= GAMES) {
                 System.out.println(getAgent().getName() + " finished with a win rate of " + statistics.getWinRate());
                 return true;
             }
-        }
-
-        if (opponent == null) {
-            protocol.register();
+            
+            System.out.println(getAgent().getName() + " finished game " + statistics.getGames());
+            
+            game = null;
+            tryFindOpp();
         }
 
         return false;
     }
 
     public void tryFindOpp() {
+    	System.out.println(getAgent().getName() + " looking for opp");
+
+        opponent = null;
+        
+	    try {
+	        // randomize the start order
+	        Thread.sleep((long) (Math.random() * 500));
+	    } catch (InterruptedException e) { }
 
         AID opp = protocol.find();
         if (opp != null) {

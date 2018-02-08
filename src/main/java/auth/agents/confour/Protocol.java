@@ -20,7 +20,6 @@ public class Protocol {
     }
 
     public void register() {
-        System.out.println("Register");
 
         DFAgentDescription descAgent = new DFAgentDescription();
         descAgent.setName(agent.getAID());
@@ -50,7 +49,6 @@ public class Protocol {
     }
 
     public AID find() {
-        System.out.println("Find");
 
         DFAgentDescription descAgent = new DFAgentDescription();
 
@@ -131,7 +129,7 @@ public class Protocol {
         message.setOntology(ONTOLOGY);
         message.setContent(content);
 
-        System.out.println("Message (" + agent.getAID().getLocalName() + " > " + aid.getLocalName() + ") " + per + " - " + content);
+        // System.out.println("Message (" + agent.getAID().getLocalName() + " > " + aid.getLocalName() + ") " + per + " - " + content);
 
         return message;
     }
