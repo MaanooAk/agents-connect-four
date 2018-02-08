@@ -13,8 +13,15 @@ import auth.agents.confour.game.Board;
  */
 public class EvaluatorByGroupCount extends Evaluator {
     
+    //weights for 0,1,2 and 3 in a row
+    private int[] weights = {0,0,1,4};
+    private int countO;
+    private int countP;
+    
     public EvaluatorByGroupCount() {
         score = 0;
+        countO = 0;
+        countP = 0;
     }
     
     /**
@@ -28,10 +35,6 @@ public class EvaluatorByGroupCount extends Evaluator {
      */
     @Override
     public int evaluate(Board board, int x){
-        
-
-        //weights for 0,1,2 and 3 in a row
-        int[] weights = {0,0,1,4};
 
         if (board.canAdd(x)) {
             Board tBoard = board.clone();
@@ -44,163 +47,61 @@ public class EvaluatorByGroupCount extends Evaluator {
                 //------------------------------------------------
                 //checking the columns
                 for (int w=0;w<Board.W;w++) {
-                    int countP = 0;
-                    int countO = 0;
+                    countP = 0;
+                    countO = 0;
                     for (int h=0;h<Board.H;h++) {
-                        if (tBoard.get(w,h) == Board.P) {
-                            score -= weights[countO];
-                            countO = 0;
-                            countP += 1;
-                        }
-                        else if (tBoard.get(w,h) == Board.O) {
-                            score += weights[countP];
-                            countP = 0;
-                            countO += 1;
-                        }
-                        else {
-                            score += weights[countP];
-                            countP = 0;
-                            score -= weights[countO];
-                            countO = 0;
-                        }
+                        calculateScore(tBoard, w, h, 0, false);
                     }
                 }
                 //------------------------------------------------
                 //checking the rows
                 for (int h=0;h<Board.H;h++) {
-                    int countP = 0;
-                    int countO = 0;
+                    countP = 0;
+                    countO = 0;
                     for (int w=0;w<Board.W;w++) {
-                        if (tBoard.get(w,h) == Board.P) {
-                            score -= weights[countO];
-                            countO = 0;
-                            countP += 1;
-                        }
-                        else if (tBoard.get(w,h) == Board.O) {
-                            score += weights[countP];
-                            countP = 0;
-                            countO += 1;
-                        }
-                        else {
-                            score += weights[countP];
-                            countP = 0;
-                            score -= weights[countO];
-                            countO = 0;
-                        }
+                        calculateScore(tBoard, w, h, 0, false);
                     }
                 }
                 //------------------------------------------------
                 //checking the counter diagonals
                 //all the diagonals starting from the bottom row
                 for (int w=0;w<Board.W-3;w++) {
-                    int countP = 0;
-                    int countO = 0;
+                    countP = 0;
+                    countO = 0;
                     int h = 0;
 
                     for (int d=0;d<Board.H-1;d++) {
-                        if ((w+d > Board.W) || (h+d > Board.H))
-                            continue;
-
-                        if (tBoard.get(w+d,h+d) == Board.P) {
-                            score -= weights[countO];
-                            countO = 0;
-                            countP += 1;
-                        }
-                        else if (tBoard.get(w+d,h+d) == Board.O) {
-                            score += weights[countP];
-                            countP = 0;
-                            countO += 1;
-                        }
-                        else {
-                            score += weights[countP];
-                            countP = 0;
-                            score -= weights[countO];
-                            countO = 0;
-                        }
+                        calculateScore(tBoard, w, h, d, false);
                     }
                 }
                 //the rest of the counter diagonals, that start from the first column
                 for (int h=1;h<Board.H-3;h++) {
-                    int countP = 0;
-                    int countO = 0;
+                    countP = 0;
+                    countO = 0;
 
                     for (int d=0;d<Board.H-2;d++) {
-                        if ((0+d > Board.W) || (h+d > Board.H))
-                            continue;
-
-                        if (tBoard.get(0+d,h+d) == Board.P) {
-                            score -= weights[countO];
-                            countO = 0;
-                            countP += 1;
-                        }
-                        else if (tBoard.get(0+d,h+d) == Board.O) {
-                            score += weights[countP];
-                            countP = 0;
-                            countO += 1;
-                        }
-                        else {
-                            score += weights[countP];
-                            countP = 0;
-                            score -= weights[countO];
-                            countO = 0;
-                        }
+                        calculateScore(tBoard, 0, h, d, false);
                     }
                 }
                 //------------------------------------------------
                 //checking the main diagonals
                 //all the diagonals starting from the bottom row
                 for (int w=Board.W-1;w>2;w--) {
-                    int countP = 0;
-                    int countO = 0;
+                    countP = 0;
+                    countO = 0;
                     int h = 0;
 
                     for (int d=0;d<Board.H-1;d++) {
-                        if ((w-d > Board.W) || (h+d > Board.H))
-                            continue;
-
-                        if (tBoard.get(w-d,h+d) == Board.P) {
-                            score -= weights[countO];
-                            countO = 0;
-                            countP += 1;
-                        }
-                        else if (tBoard.get(w-d,h+d) == Board.O) {
-                            score += weights[countP];
-                            countP = 0;
-                            countO += 1;
-                        }
-                        else {
-                            score += weights[countP];
-                            countP = 0;
-                            score -= weights[countO];
-                            countO = 0;
-                        }
+                        calculateScore(tBoard, w, h, d, true);
                     }
                 }
                 //the rest of the main diagonals, that start from the last column
                 for (int h=1;h<Board.H-3;h++) {
-                    int countP = 0;
-                    int countO = 0;
+                    countP = 0;
+                    countO = 0;
 
                     for (int d=0;d<Board.H-2;d++) {
-                        if ((Board.H - d > Board.W) || (h+d > Board.H))
-                            continue;
-
-                        if (tBoard.get(Board.H - d,h+d) == Board.P) {
-                            score -= weights[countO];
-                            countO = 0;
-                            countP += 1;
-                        }
-                        else if (tBoard.get(Board.H - d,h+d) == Board.O) {
-                            score += weights[countP];
-                            countP = 0;
-                            countO += 1;
-                        }
-                        else {
-                            score += weights[countP];
-                            countP = 0;
-                            score -= weights[countO];
-                            countO = 0;
-                        }
+                        calculateScore(tBoard, Board.W - 1, h, 0, true);
                     }
                 }
             }
@@ -209,4 +110,39 @@ public class EvaluatorByGroupCount extends Evaluator {
         return score;
     }
     
+    /**
+     * 
+     * @param tBoard current state of the board
+     * @param w width of cell
+     * @param h height of cell
+     * @param dy distance from starting cell
+     * @param flag if true, the horizontal distance is negative
+     */
+    private void calculateScore(Board tBoard, int w, int h, int dy, boolean flag) {
+        int dx = dy;
+        if (flag == true) {
+            dx = -dy;
+        }
+        if ((w+dx > Board.W) || (h+dy > Board.H))
+            return;
+
+        switch (tBoard.get(w+dx,h+dy)) {
+            case Board.P:
+                score -= weights[countO];
+                countO = 0;
+                countP += 1;
+                break;
+            case Board.O:
+                score += weights[countP];
+                countP = 0;
+                countO += 1;
+                break;
+            default:
+                score += weights[countP];
+                countP = 0;
+                score -= weights[countO];
+                countO = 0;
+                break;
+        }
+    }
 }
