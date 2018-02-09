@@ -43,7 +43,7 @@ public final class Game {
 
     public void addOpponentDisk(int x) {
 
-        board.add(x, Board.P);
+        board.add(x, Board.O);
         nextPlayer();
     }
 

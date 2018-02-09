@@ -6,27 +6,22 @@ public class Statistics {
     private int wins;
     private int moves;
 
-    public Statistics(){
+    public Statistics() {
     }
 
-    public void add(boolean isWinner, int moves){
+    public void add(Game game) {
+
         games += 1;
-        if (isWinner){
-            wins += 1;
-        }
-        this.moves += moves;
+        if (game.isPlayerWinner()) wins += 1;
+
+        moves += game.numberOfMoves();
     }
 
     public int getGames() {
         return games;
     }
 
-    public void printStats(){
-        double avgMoves = (double)moves/games;
-        double winRate = (double)wins/games;
-    }
-
     public float getWinRate() {
-        return wins*1f/games;
+        return wins * 1f / games;
     }
 }
