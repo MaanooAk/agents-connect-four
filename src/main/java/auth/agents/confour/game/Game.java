@@ -53,7 +53,7 @@ public final class Game {
     }
 
     public boolean isPlaying() {
-        return playing;
+        return !isOver() && playing;
     }
 
     public boolean isOver() {
