@@ -74,6 +74,10 @@ public final class Game {
 
     public int numberOfMoves() {return (board.W*board.H) - board.getLeft();}
 
+    public Board getBoard() {
+        return board;
+    }
+
     @Override
     public String toString() {
         return board.toString();

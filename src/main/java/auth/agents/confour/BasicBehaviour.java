@@ -13,7 +13,7 @@ import java.time.Duration;
 
 public class BasicBehaviour extends Behaviour {
 
-    private static final long LIFETIME = Duration.ofSeconds(30).toMillis();
+    private static final long LIFETIME = Duration.ofSeconds(60).toMillis();
 
     private final Protocol protocol;
     private final IEngine engine;

@@ -159,6 +159,7 @@ public final class Board {
             if (!inside(ix, iy)) continue;
 
             if (get(ix, iy) != c) {
+                if (count >= 4) return true;
                 count = 0;
             } else {
                 count += 1;
