@@ -37,7 +37,7 @@ public class Protocol {
         }
 
     }
-    
+
     public void deregister() {
 
         try {
@@ -103,7 +103,7 @@ public class Protocol {
 
     public int receiveMove(ACLMessage message) {
 
-        if(!message.getOntology().equals(ONTOLOGY)) throw new RuntimeException("Unknown ontology");
+        if (!message.getOntology().equals(ONTOLOGY)) throw new RuntimeException("Unknown ontology");
 
         int move = Integer.parseInt(message.getContent());
 
@@ -112,7 +112,7 @@ public class Protocol {
 
     public int receiveSeed(ACLMessage message) {
 
-        if(!message.getOntology().equals(ONTOLOGY)) throw new RuntimeException("Unknown ontology");
+        if (!message.getOntology().equals(ONTOLOGY)) throw new RuntimeException("Unknown ontology");
 
         int seed = Integer.parseInt(message.getContent());
 

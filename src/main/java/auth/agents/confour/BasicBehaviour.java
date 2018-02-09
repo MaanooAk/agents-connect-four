@@ -81,6 +81,11 @@ public class BasicBehaviour extends Behaviour {
                 protocol.sendSeed(opponent, seed);
             }
 
+        } else if (message.getPerformative() == ACLMessage.REJECT_PROPOSAL) {
+            // this is a fail safe
+
+            tryFindOpp();
+
         } else if (opponent != null && !opponent.equals(message.getSender())) {
 
             protocol.rejectGame(message.getSender());
@@ -92,7 +97,7 @@ public class BasicBehaviour extends Behaviour {
 
             AgentLogger.debug(() -> "Game created (" + myAgent.getLocalName() + " " + opponent.getLocalName() + ")");
 
-        } else if (game != null){
+        } else if (game != null) {
 
             int move = protocol.receiveMove(message);
             game.addOpponentDisk(move);
@@ -106,9 +111,9 @@ public class BasicBehaviour extends Behaviour {
         }
 
         if (game != null && game.isOver()) {
-            
+
             statistics.add(game);
-            
+
             if (statistics.getDuration() >= LIFETIME) {
                 return true;
             }
@@ -126,11 +131,11 @@ public class BasicBehaviour extends Behaviour {
 
         game = null;
         opponent = null;
-        
-	    try {
-	        // randomize the start order
-	        Thread.sleep((long) (Math.random() * 50));
-	    } catch (InterruptedException e) { }
+
+        try {
+            // randomize the start order
+            Thread.sleep((long) (Math.random() * 50));
+        } catch (InterruptedException e) { }
 
         AID opp = protocol.find();
         if (opp != null) {

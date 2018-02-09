@@ -6,10 +6,10 @@ import java.util.Random;
 
 public class EngineRandom implements IEngine {
 
-    private final Random ra = new Random();
+    private final Random ra;
 
     public EngineRandom() {
-
+        ra = new Random();
     }
 
     @Override
