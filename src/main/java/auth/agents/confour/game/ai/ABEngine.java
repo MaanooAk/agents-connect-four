@@ -1,7 +1,6 @@
 package auth.agents.confour.game.ai;
 
 import auth.agents.confour.game.Board;
-import java.lang.Math;
 
 /**
  *
@@ -9,11 +8,11 @@ import java.lang.Math;
  */
 public class ABEngine implements IEngine {
 
-    private int depth = 3;
-    private int alpha = Integer.MIN_VALUE;
-    private int beta = Integer.MAX_VALUE;
+    private final int depth = 3;
+    private final int alpha = Integer.MIN_VALUE;
+    private final int beta = Integer.MAX_VALUE;
 
-    private Evaluator evaluator;
+    private final Evaluator evaluator;
 
     public ABEngine(Evaluator evaluator) {
         this.evaluator = evaluator;
@@ -29,39 +28,47 @@ public class ABEngine implements IEngine {
 
     private int alphaBeta(Board currentBoard, int d, int a, int b, boolean maxPlayer) {
 
-        for (int i = 0; i < currentBoard.W; i++) {
+        Board tempBoard;
+        char player;
+        //creating the possible boards after a move
 
-            char player;
-            //creating the possible boards after a move
-            Board tempBoard = currentBoard.clone();
-            
-            if (tempBoard.canAdd(i)) {
-                
-                if(d == 0 || tempBoard.hasWinner())
-                
-                if (maxPlayer) {
-                    player = 'P';
+        if (d == 0 || currentBoard.hasWinner()) {
+            return evaluator.evaluate(currentBoard);
+        }
+
+        if (maxPlayer) {
+
+            player = 'P';
+            int val = Integer.MIN_VALUE;
+            for (int i = 0; i < Board.W; i++) {
+                tempBoard = currentBoard.clone();
+                if (tempBoard.canAdd(i)) {
                     tempBoard.add(i, player);
-                    
-                    //???
-                    a = Math.max(a, alphaBeta(tempBoard, d - 1, a, b, !maxPlayer));
-                    if (b <= a) {
-                        break;
-                    }
-                    //return ?1?!?
-                } else {
-                    player = 'O';
-                    tempBoard.add(i, player);
-                    
-                    b = Math.min(b, alphaBeta(tempBoard, d - 1, a, b, !maxPlayer));
+                    val = Math.max(val, alphaBeta(tempBoard, d - 1, a, b, !maxPlayer));
+                    a = Math.max(a, val);
                     if (b <= a) {
                         break;
                     }
                 }
             }
-
+            return val;
+        } else {
+            player = 'O';
+            int val = Integer.MAX_VALUE;
+            for (int i = 0; i < Board.W; i++) {
+                tempBoard = currentBoard.clone();
+                if (tempBoard.canAdd(i)) {
+                    tempBoard.add(i, player);
+                    val = Math.min(val, alphaBeta(tempBoard, d - 1, a, b, !maxPlayer));
+                    b = Math.min(b, val);
+                    if (b <= a) {
+                        break;
+                    }
+                }
+            }
+            return val;
         }
-        return 0;
+
     }
 
 }
