@@ -9,29 +9,31 @@ import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 
+import java.time.Duration;
+
 public class BasicBehaviour extends Behaviour {
 
-    private static final int GAMES = 20;
+    private static final long LIFETIME = Duration.ofSeconds(30).toMillis();
 
     private final Protocol protocol;
+    private final IEngine engine;
+    private final Statistics statistics;
 
     private AID opponent;
     private Game game;
     private int seed;
-    private IEngine engine;
-    private Statistics statistics;
 
     public BasicBehaviour(Agent a, IEngine engine) {
         super(a);
         this.engine = engine;
 
         protocol = new Protocol(a);
+        statistics = new Statistics();
 
         opponent = null;
         game = null;
 
         seed = GameMaker.createRandomSeed();
-        statistics = new Statistics();
     }
 
     @Override
@@ -39,7 +41,7 @@ public class BasicBehaviour extends Behaviour {
 
         tryFindOpp();
 
-        while (true) {
+        while (statistics.getDuration() < LIFETIME) {
 
             ACLMessage message = myAgent.receive();
             if (message != null) {
@@ -47,9 +49,11 @@ public class BasicBehaviour extends Behaviour {
                 if (handleMessage(message)) return;
 
             } else {
-                block();
+                block(500); // to end registered agents on the lifetime limit
             }
         }
+
+        AgentLogger.info("%s: %s", getAgent().getLocalName(), statistics);
     }
 
     private boolean handleMessage(ACLMessage message) {
@@ -86,7 +90,7 @@ public class BasicBehaviour extends Behaviour {
             int otherSeed = protocol.receiveSeed(message);
             game = GameMaker.createGame(seed, otherSeed);
 
-            System.out.println("Game created"); //debug
+            AgentLogger.debug(() -> "Game created (" + myAgent.getLocalName() + " " + opponent.getLocalName() + ")");
 
         } else if (game != null){
 
@@ -105,14 +109,12 @@ public class BasicBehaviour extends Behaviour {
             
             statistics.add(game);
             
-            if (statistics.getGames() >= GAMES) {
-                System.out.println(getAgent().getName() + " finished with a win rate of " + statistics.getWinRate());
+            if (statistics.getDuration() >= LIFETIME) {
                 return true;
             }
-            
-            System.out.println(getAgent().getName() + " finished game " + statistics.getGames());
-            
-            game = null;
+
+            AgentLogger.debug(() -> getAgent().getLocalName() + " finished " + statistics.getGames() + " games");
+
             tryFindOpp();
         }
 
@@ -120,13 +122,14 @@ public class BasicBehaviour extends Behaviour {
     }
 
     public void tryFindOpp() {
-    	System.out.println(getAgent().getName() + " looking for opp");
+        AgentLogger.debug(() -> getAgent().getLocalName() + " looking for opp");
 
+        game = null;
         opponent = null;
         
 	    try {
 	        // randomize the start order
-	        Thread.sleep((long) (Math.random() * 500));
+	        Thread.sleep((long) (Math.random() * 50));
 	    } catch (InterruptedException e) { }
 
         AID opp = protocol.find();
@@ -139,6 +142,6 @@ public class BasicBehaviour extends Behaviour {
 
     @Override
     public boolean done() {
-        return statistics.getGames() >= GAMES;
+        return statistics.getDuration() >= LIFETIME;
     }
 }

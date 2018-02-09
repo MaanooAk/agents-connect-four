@@ -129,7 +129,7 @@ public class Protocol {
         message.setOntology(ONTOLOGY);
         message.setContent(content);
 
-        // System.out.println("Message (" + agent.getAID().getLocalName() + " > " + aid.getLocalName() + ") " + per + " - " + content);
+        // AgentLogger.debug(() -> "Message (" + agent.getAID().getLocalName() + " > " + aid.getLocalName() + ") " + per + " - " + content);
 
         return message;
     }

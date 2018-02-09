@@ -17,7 +17,7 @@ public class PlayerAgent extends Agent {
             //engineName = (String) getArguments()[0];
         }
 
-        System.out.println("Agent with engine '" + engineName + "'");
+        AgentLogger.info("%s: Engine '%s'", getLocalName(), engineName);
 
         addBehaviour(new BasicBehaviour(this, EngineSelector.selectEngine(engineName)));
     }
